@@ -37,24 +37,35 @@ fi
 # Set keyboard layout (change to your preferred layout)
 setxkbmap us
 
-# Start compositor for transparency and effects
-picom -b &
+# Start compositor for transparency and effects (if available)
+if command -v picom &> /dev/null; then
+    picom -b &
+fi
 
 # Set wallpaper (create a wallpapers directory)
-if [ -f "$HOME/Pictures/wallpaper.jpg" ]; then
-    feh --bg-scale "$HOME/Pictures/wallpaper.jpg" &
-elif [ -f "$HOME/Pictures/wallpaper.png" ]; then
-    feh --bg-scale "$HOME/Pictures/wallpaper.png" &
+if command -v feh &> /dev/null; then
+    if [ -f "$HOME/Pictures/wallpaper.jpg" ]; then
+        feh --bg-scale "$HOME/Pictures/wallpaper.jpg" &
+    elif [ -f "$HOME/Pictures/wallpaper.png" ]; then
+        feh --bg-scale "$HOME/Pictures/wallpaper.png" &
+    else
+        # Set a solid color background if no wallpaper found
+        xsetroot -solid "#1e1e1e"
+    fi
 else
-    # Set a solid color background if no wallpaper found
+    # Set a solid color background if feh is not available
     xsetroot -solid "#1e1e1e"
 fi
 
-# Start network manager applet
-nm-applet &
+# Start network manager applet (if available)
+if command -v nm-applet &> /dev/null; then
+    nm-applet &
+fi
 
-# Start bluetooth manager
-blueman-applet &
+# Start bluetooth manager (if available)
+if command -v blueman-applet &> /dev/null; then
+    blueman-applet &
+fi
 
 # Disable screen blanking
 xset s off

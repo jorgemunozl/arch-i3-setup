@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# Minimal .xinitrc - X11 initialization script
+# This file is executed when you run 'startx'
+
+# Set keyboard layout
+setxkbmap us
+
+# Set a dark background
+xsetroot -solid "#1e1e1e"
+
+# Disable screen blanking and power management
+xset s off
+xset -dpms
+
+# Start i3 window manager
+exec i3
