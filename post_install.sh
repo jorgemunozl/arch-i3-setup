@@ -18,7 +18,7 @@ create_desktop_entries() {
 [Desktop Entry]
 Name=Start i3
 Comment=Start i3 Window Manager
-Exec=$HOME/dotfiles/start_i3.sh
+Exec=$HOME/arch-i3-setup/start_i3.sh
 Icon=preferences-desktop
 Terminal=true
 Type=Application

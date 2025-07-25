@@ -26,14 +26,14 @@ A complete dotfiles configuration for Arch Linux with i3 window manager, designe
 
 ```bash
 # Using HTTPS (recommended for most users)
-git clone https://github.com/jorgemunozl/dotfiles.git
-cd dotfiles
+git clone https://github.com/jorgemunozl/arch-i3-setup.git
+cd arch-i3-setup
 ./check_prereqs.sh
 ```
 
 > **Note**: If you have SSH keys configured, you can also use:
 > ```bash
-> git clone git@github.com:jorgemunozl/dotfiles.git
+> git clone git@github.com:jorgemunozl/arch-i3-setup.git
 > ```
 
 This will verify:
@@ -135,7 +135,7 @@ Located in `~/scripts/`:
 ## 📁 Configuration Files
 
 ```
-dotfiles/
+arch-i3-setup/
 ├── .config/
 │   ├── i3/
 │   │   └── config              # i3 window manager configuration
@@ -348,7 +348,7 @@ This project is licensed under the MIT License.
 
 **Jorge Muñoz**
 - GitHub: [@jorgemunozl](https://github.com/jorgemunozl)
-- Email: [your-email@example.com]
+- Repository: [arch-i3-setup](https://github.com/jorgemunozl/arch-i3-setup)
 
 ## 🙏 Acknowledgments
 
