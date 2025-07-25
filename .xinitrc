@@ -37,6 +37,11 @@ fi
 # Set keyboard layout (change to your preferred layout)
 setxkbmap us
 
+# Set XDG environment variables for i3
+export XDG_CURRENT_DESKTOP=i3
+export XDG_SESSION_DESKTOP=i3
+export XDG_SESSION_TYPE=x11
+
 # Start compositor for transparency and effects (if available)
 if command -v picom &> /dev/null; then
     picom -b &

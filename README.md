@@ -107,7 +107,7 @@ Or use the custom script:
 | `Super + d` | Application launcher (dmenu) |
 | `Super + Shift + q` | Close focused window |
 | `Super + Shift + r` | Restart i3 |
-| `Super + Shift + e` | Exit i3 |
+| `Super + Shift + e` | Exit i3 (instant, no confirmation) |
 | `Super + 1-9` | Switch to workspace 1-9 |
 | `Super + Shift + 1-9` | Move window to workspace 1-9 |
 | `Super + h/v` | Split horizontal/vertical |
@@ -143,7 +143,8 @@ arch-i3-setup/
 │   │   └── config              # Status bar configuration
 │   └── alacritty/
 │       └── alacritty.yml       # Terminal emulator configuration
-├── .xinitrc                    # X11 initialization
+├── .xinitrc                    # X11 initialization (full version)
+├── .xinitrc.minimal            # X11 initialization (minimal version)
 ├── .bashrc                     # Bash configuration with aliases
 ├── install_i3.sh              # Main installation script
 ├── post_install.sh            # Post-installation configuration
@@ -152,6 +153,36 @@ arch-i3-setup/
 ```
 
 ## 🎨 Customization
+
+### X11 Initialization (.xinitrc)
+
+The `.xinitrc` file controls what happens when you run `startx`. It includes:
+
+**Automatic Detection & Safety:**
+- Checks for optional programs before running them
+- Provides fallbacks when programs aren't installed
+- Ensures i3 always starts successfully
+
+**Features:**
+- Sets US keyboard layout (change `setxkbmap us` to your preference)
+- Starts compositor (picom) for transparency effects
+- Sets wallpaper or solid background color
+- Launches network manager applet (if installed)
+- Starts bluetooth manager (if installed)
+- Disables screen blanking
+- Launches i3 window manager
+
+**Optional Programs:**
+If these aren't installed, `.xinitrc` will skip them gracefully:
+```bash
+sudo pacman -S picom feh network-manager-applet blueman
+```
+
+**Minimal Version:**
+For testing or minimal setups, use `.xinitrc.minimal`:
+```bash
+cp .xinitrc.minimal ~/.xinitrc
+```
 
 ### Wallpapers
 
@@ -247,6 +278,21 @@ Options include:
 - Complete removal
 
 ### Common Issues
+
+**X Server / startx command not found errors**
+```bash
+# Error: "command not found" in .xinitrc at line 56
+# This happens when optional programs aren't installed
+
+# Solution 1: Install optional packages
+sudo pacman -S picom feh network-manager-applet blueman
+
+# Solution 2: Use minimal .xinitrc (for testing)
+cp .xinitrc.minimal ~/.xinitrc
+
+# Solution 3: The .xinitrc already has safety checks - just copy it:
+cp .xinitrc ~/.xinitrc
+```
 
 **Package database update fails**
 ```bash
