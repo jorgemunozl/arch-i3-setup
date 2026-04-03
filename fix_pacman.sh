@@ -59,9 +59,14 @@ check_pacman_state() {
         echo -e "${GREEN}✅ No pacman lock file${NC}"
     fi
     
-    # Check network connectivity to Arch mirrors
+    # Check network connectivity to Arch mirrors (HTTPS + IPv4 ICMP; plain ping is unreliable)
     echo -e "${BLUE}🌐 Testing connectivity to Arch Linux mirrors...${NC}"
-    if ping -c 1 archlinux.org &> /dev/null; then
+    if {
+        { command -v curl &>/dev/null && curl -fsS --max-time 8 --connect-timeout 5 -o /dev/null "https://archlinux.org/" 2>/dev/null; } ||
+        { command -v wget &>/dev/null && wget -q --timeout=8 --tries=1 -O /dev/null "https://archlinux.org/" 2>/dev/null; } ||
+        ping -c 1 -W 3 -4 archlinux.org &>/dev/null ||
+        ping -c 1 -W 3 -4 google.com &>/dev/null
+    }; then
         echo -e "${GREEN}✅ Can reach archlinux.org${NC}"
     else
         echo -e "${RED}❌ Cannot reach archlinux.org${NC}"
