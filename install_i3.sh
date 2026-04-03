@@ -19,8 +19,14 @@ check_prerequisites() {
         exit 1
     fi
     
-    # Check internet connection
-    if ! ping -c 1 archlinux.org &> /dev/null; then
+    # Check internet connection (HTTPS matches pacman; ICMP is often blocked or IPv6-broken)
+    if command -v curl &>/dev/null && curl -fsS --max-time 8 --connect-timeout 5 -o /dev/null "https://archlinux.org/" 2>/dev/null; then
+        :
+    elif command -v wget &>/dev/null && wget -q --timeout=8 --tries=1 -O /dev/null "https://archlinux.org/" 2>/dev/null; then
+        :
+    elif ping -c 1 -W 3 -4 archlinux.org &>/dev/null || ping -c 1 -W 3 -4 google.com &>/dev/null; then
+        :
+    else
         echo "❌ No internet connection detected!"
         echo "Please check your network connection and try again."
         exit 1
