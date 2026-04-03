@@ -40,8 +40,13 @@ else
     print_check "Not running on Arch Linux" "FAIL"
 fi
 
-# Check internet connection
-if ping -c 1 google.com &> /dev/null; then
+# Check internet connection (HTTPS matches pacman; plain ping often fails when ICMP is
+# blocked or IPv6 routing is broken while IPv4/HTTPS still work)
+if command -v curl &>/dev/null && curl -fsS --max-time 8 --connect-timeout 5 -o /dev/null "https://archlinux.org/" 2>/dev/null; then
+    print_check "Internet connection available" "PASS"
+elif command -v wget &>/dev/null && wget -q --timeout=8 --tries=1 -O /dev/null "https://archlinux.org/" 2>/dev/null; then
+    print_check "Internet connection available" "PASS"
+elif ping -c 1 -W 3 -4 archlinux.org &>/dev/null || ping -c 1 -W 3 -4 google.com &>/dev/null; then
     print_check "Internet connection available" "PASS"
 else
     print_check "No internet connection" "FAIL"
